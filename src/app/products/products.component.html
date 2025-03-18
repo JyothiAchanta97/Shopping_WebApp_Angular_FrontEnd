@@ -1,0 +1,95 @@
+<button class="availableBtn" (click)="ShowProducts()">All Products</button>
+<button class="availableBtn" (click)="ShowAvailableProducts()">Available Products</button>
+<button class="availableBtn" (click)="toggleAddProductForm()">Add new Product</button>
+<div *ngIf="showAddProductForm">
+    <h3>Add New Product</h3>
+    <form (ngSubmit)="addNewProduct()">
+      <label for="sku">SKU</label>
+      <input type="text" id="sku" [(ngModel)]="newProduct.sku" name="sku" required>
+      
+      <label for="name">Name</label>
+      <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" required>
+      
+      <label for="description">Description</label>
+      <input type="text" id="description" [(ngModel)]="newProduct.description" name="description" required>
+      
+      <label for="price">Price</label>
+      <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" required>
+
+      <label for="isAvailable">{{ newProduct.isAvailable ? 'Available' : 'Not Available' }}</label>
+      <input class="checkbox" type="checkbox" id="isAvailable" [(ngModel)]="newProduct.isAvailable" name="isAvailable">
+
+      <label for="categoryId">Category ID</label>
+      <input type="number" id="categoryId" [(ngModel)]="newProduct.categoryId" name="categoryId" required>
+
+      <button class="edit-btn" type="submit">Add Product</button>
+    </form>
+  </div>
+
+
+
+<div *ngIf="ShowAllProducts" class="product-container">
+    <div *ngFor="let product of products">
+        <div class="product-card">
+        <div class="product-details">
+            <h5 class="product-title">{{ product.name }}</h5>
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: ${{ product.price }}</p>
+            <p class="product-availability">Available: {{ product.isAvailable ? 'Yes' : 'No' }}</p>
+            <button (click)="openEditModal(product)" class="edit-btn">
+              <i class="fa fa-edit"></i> Edit
+          </button>
+          <button (click)="deleteOneProduct(product.id)" class="delete-btn">
+            <i class="fa fa-trash"></i> Delete
+        </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Product Modal -->
+<div *ngIf="isEditModalOpen" class="modal">
+    <div class="modal-content">
+      
+      <h3>Edit Product</h3>
+      <form (ngSubmit)="updateProduct()">
+        <label for="sku">SKU</label>
+        <input type="text" id="sku" [(ngModel)]="ProductToEdit.sku" name="sku" required>
+        
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="ProductToEdit.name" name="name" required>
+        
+        <label for="description">Description</label>
+        <input type="text" id="description" [(ngModel)]="ProductToEdit.description" name="description" required>
+        
+        <label for="price">Price</label>
+        <input type="number" id="price" [(ngModel)]="ProductToEdit.price" name="price" required>
+  
+        <label for="isAvailable">{{ ProductToEdit.isAvailable ? 'Available' : 'Not Available' }}</label>
+        <input class="checkbox" type="checkbox" id="isAvailable" [(ngModel)]="ProductToEdit.isAvailable" name="isAvailable">
+  
+        <label for="categoryId">Category ID</label>
+        <input type="number" id="categoryId" [(ngModel)]="ProductToEdit.categoryId" name="categoryId" required>
+        <button class="edit-btn" type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+
+<div *ngIf="ShowAvailProducts" class="product-container">
+    <div *ngFor="let product of products">
+        <div *ngIf="product.isAvailable" class="product-card">
+        <div class="product-details">
+            <h5 class="product-title">{{ product.name }}</h5>
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: ${{ product.price }}</p>
+            <p class="product-availability">Available: {{ product.isAvailable ? 'Yes' : 'No' }}</p>
+        </div>
+        </div>
+
+    </div>
+</div>
+
+
+
